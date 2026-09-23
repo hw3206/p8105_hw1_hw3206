@@ -41,3 +41,38 @@ ggsave(
 The points suggest that Gentoo penguins tend to have longer flippers than the other two species. The scatterplot is also saved as `penguins_scatterplot.png` in the project directory.
 
 ## Problem 2
+
+```{r sample-data}
+set.seed(8105)
+
+normal_sample <- rnorm(10)
+sample_data <- data.frame(
+  normal_sample = normal_sample,
+  positive = normal_sample > 0,
+  letter = letters[1:10],
+  group = factor(rep(c("A", "B", "C"), length.out = 10))
+)
+
+sample_data
+```
+
+I took the mean of each column separately:
+
+```{r column-means, warning=FALSE}
+mean(sample_data$normal_sample)
+mean(sample_data$positive)
+mean(sample_data$letter)
+mean(sample_data$group)
+```
+
+The numeric sample has a mean of `r round(mean(sample_data$normal_sample), 2)`. The logical mean is `r mean(sample_data$positive)`, which is the proportion of sampled values above zero because R treats `TRUE` as 1 and `FALSE` as 0 in this calculation. The character and factor columns return `NA` with warnings: their values are not numeric measurements that `mean()` can average directly.
+
+The following conversions are evaluated, but their output is hidden:
+
+```{r numeric-conversion, results = "hide", warning = FALSE}
+as.numeric(sample_data$positive)
+as.numeric(sample_data$letter)
+as.numeric(sample_data$group)
+```
+
+Converting the logical values gives 0s and 1s, which explains why their mean works. The letters cannot be converted to numbers, so `as.numeric()` gives `NA`. A factor converts to the integer codes for its levels (1, 2, and 3 here). Those codes are labels, not meaningful measurements, so averaging them would be misleading even though they are numeric after conversion.
