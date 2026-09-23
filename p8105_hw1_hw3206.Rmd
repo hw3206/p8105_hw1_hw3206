@@ -1,0 +1,9 @@
+---
+title: "Homework 1"
+author: "Harrison Wei"
+output: github_document
+---
+
+## Problem 1
+
+## Problem 2
