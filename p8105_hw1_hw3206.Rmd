@@ -10,7 +10,7 @@ output: github_document
 data("penguins", package = "palmerpenguins")
 ```
 
-The `penguins` data have one row per penguin, with `r nrow(penguins)` rows and `r ncol(penguins)` columns. The `species` values are `r paste(levels(penguins$species), collapse = ", ")`, and the `island` values are `r paste(levels(penguins$island), collapse = ", ")`. Measurements include `bill_length_mm`, `flipper_length_mm`, and `body_mass_g`; the data also record `sex` and `year` (`r min(penguins$year)`–`r max(penguins$year)`). The mean flipper length is `r round(mean(penguins$flipper_length_mm, na.rm = TRUE), 1)` mm; this calculation excludes `r sum(is.na(penguins$flipper_length_mm))` missing values.
+The `penguins` data have one row per penguin, with `r nrow(penguins)` rows and `r ncol(penguins)` columns. The `species` values are `r paste(levels(penguins$species), collapse = ", ")`, and the `island` values are `r paste(levels(penguins$island), collapse = ", ")`. Measurements include `bill_length_mm`, `flipper_length_mm`, and `body_mass_g`; the data also record `sex` (`r paste(levels(penguins$sex), collapse = ", ")`) and `year` (`r min(penguins$year)`–`r max(penguins$year)`). The mean flipper length is `r round(mean(penguins$flipper_length_mm, na.rm = TRUE), 1)` mm; this calculation excludes `r sum(is.na(penguins$flipper_length_mm))` missing values.
 
 ```{r penguins-plot}
 library(ggplot2)
@@ -58,16 +58,16 @@ sample_data
 
 I took the mean of each column separately:
 
-```{r column-means, warning=FALSE}
+```{r column-means, warning = FALSE}
 mean(sample_data$normal_sample)
 mean(sample_data$above_zero)
 mean(sample_data$character_value)
 mean(sample_data$factor_group)
 ```
 
-The numeric sample has a mean of `r round(mean(sample_data$normal_sample), 2)`. The logical mean is `r mean(sample_data$above_zero)`, which is the proportion of sampled values above zero because R treats `TRUE` as 1 and `FALSE` as 0 in this calculation. The character and factor columns return `NA` with warnings: their values are not numeric measurements that `mean()` can average directly.
+The numeric sample has a mean of `r round(mean(sample_data$normal_sample), 2)`. The logical mean is `r mean(sample_data$above_zero)`, which is the proportion of sampled values above zero because R treats `TRUE` as 1 and `FALSE` as 0 in this calculation. The character and factor columns return `NA`: `mean()` does not directly average character or factor vectors.
 
-The following conversions are evaluated, but their output is hidden:
+I then tried explicit numeric conversion:
 
 ```{r numeric-conversion, results = "hide", warning = FALSE}
 as.numeric(sample_data$above_zero)
