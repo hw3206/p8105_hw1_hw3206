@@ -6,4 +6,38 @@ output: github_document
 
 ## Problem 1
 
+```{r penguins-data}
+data("penguins", package = "palmerpenguins")
+```
+
+The `penguins` data have one row per penguin, with `r nrow(penguins)` rows and `r ncol(penguins)` columns. The species are `r paste(levels(penguins$species), collapse = ", ")`, and the islands are `r paste(levels(penguins$island), collapse = ", ")`. Other variables include bill length, flipper length, and body mass (all recorded as measurements), as well as sex and year. The mean flipper length is `r round(mean(penguins$flipper_length_mm, na.rm = TRUE), 1)` mm; this calculation excludes `r sum(is.na(penguins$flipper_length_mm))` missing values.
+
+```{r penguins-plot}
+library(ggplot2)
+
+penguin_plot <- ggplot(
+  penguins,
+  aes(x = bill_length_mm, y = flipper_length_mm, color = species)
+) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Flipper length (mm)",
+    color = "Species"
+  ) +
+  theme_minimal()
+
+penguin_plot
+
+ggsave(
+  filename = "penguins_scatterplot.png",
+  plot = penguin_plot,
+  width = 7,
+  height = 5,
+  dpi = 300
+)
+```
+
+The points suggest that Gentoo penguins tend to have longer flippers than the other two species. The scatterplot is also saved as `penguins_scatterplot.png` in the project directory.
+
 ## Problem 2
